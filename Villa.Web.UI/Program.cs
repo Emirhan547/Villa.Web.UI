@@ -1,4 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
+using Villa.DataAccess.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var mongoDatabase = new MongoClient(builder.Configuration.GetConnectionString
+    ("MongoConnection")).GetDatabase(builder.Configuration.GetSection("DatabaseName").Value);
+
+builder.Services.AddDbContext<VillaContext>(option =>
+{
+    option.UseMongoDB(mongoDatabase.Client, mongoDatabase.DatabaseNamespace.DatabaseName);
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

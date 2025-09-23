@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Villa.DataAccess\Villa.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
