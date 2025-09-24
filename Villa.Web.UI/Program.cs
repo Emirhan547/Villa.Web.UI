@@ -1,23 +1,33 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using Villa.Business.Abstract;
-using Villa.Business.Concrete;
-using Villa.DataAccess.Abstract;
+using System.Reflection;
 using Villa.DataAccess.Context;
-using Villa.DataAccess.EntityFramework;
-using Villa.DataAccess.Repositories;
 using Villa.Web.UI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// AutoMapper, custom service injections
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddServiceExtensions();
 
-var mongoDatabase = new MongoClient(builder.Configuration.GetConnectionString
-    ("MongoConnection")).GetDatabase(builder.Configuration.GetSection("DatabaseName").Value);
+// ✅ Connection string ve database name okuma
+var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDbConnection");
+var mongoDatabaseName = builder.Configuration.GetValue<string>("MongoDbSettings:DatabaseName");
 
-builder.Services.AddDbContext<VillaContext>(option =>
+if (string.IsNullOrEmpty(mongoConnectionString))
+    throw new ArgumentNullException("MongoDbConnection boş!");
+
+if (string.IsNullOrEmpty(mongoDatabaseName))
+    throw new ArgumentNullException("MongoDbSettings:DatabaseName boş!");
+
+// ✅ MongoDB Client ve Database oluştur
+var mongoClient = new MongoClient(mongoConnectionString);
+var mongoDatabase = mongoClient.GetDatabase(mongoDatabaseName);
+
+// ✅ DbContext ekleme
+builder.Services.AddDbContext<VillaContext>(options =>
 {
-    option.UseMongoDB(mongoDatabase.Client, mongoDatabase.DatabaseNamespace.DatabaseName);
+    options.UseMongoDB(mongoClient, mongoDatabaseName);
 });
 
 // Add services to the container.
@@ -25,19 +35,16 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

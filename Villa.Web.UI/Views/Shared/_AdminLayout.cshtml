@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+    @await Component.InvokeAsync("_AdminHead")
+
+<body>
+
+    @await Component.InvokeAsync("_AdminPreloader")
+
+    <div id="main-wrapper">
+
+        @await Component.InvokeAsync("_AdminLogo")
+
+        @await Component.InvokeAsync("_AdminNavbar")
+
+
+
+
+
+
+        @await Component.InvokeAsync("_AdminSidebar")
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="row page-titles mx-0">
+                    <div class="col-sm-6 p-md-0">
+                        <div class="welcome-text">
+                            <h4>@ViewData["Title"]</h4>
+                           
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                          
+                            <div class="card-body">
+                               @RenderBody()
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="~/focus-2/vendor/global/global.min.js"></script>
+    <script src="~/focus-2/js/quixnav-init.js"></script>
+    <script src="~/focus-2/js/custom.min.js"></script>
+
+    <script src="~/focus-2/vendor/highlightjs/highlight.pack.min.js"></script>
+    <!-- Circle progress -->
+
+</body>
+
+</html>
