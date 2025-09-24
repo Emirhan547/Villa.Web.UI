@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Villa.DataAccess\Villa.DataAccess.csproj" />
+    <ProjectReference Include="..\Villa.Entity\Villa.Entity.csproj" />
+  </ItemGroup>
+
 </Project>

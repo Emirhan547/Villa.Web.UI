@@ -10,9 +10,9 @@ using Villa.Entity.Entities;
 
 namespace Villa.DataAccess.EntityFramework
 {
-    public class EFContactDal : GenericRepository<Contact>, IContactDal
+    public class EfContactDal : GenericRepository<Contact>, IContactDal
     {
-        public EFContactDal(VillaContext context) : base(context)
+        public EfContactDal(VillaContext context) : base(context)
         {
         }
     }

@@ -7,7 +7,7 @@ using Villa.Entity.Entities;
 
 namespace Villa.DataAccess.Abstract
 {
-    internal interface IFeatureDal : IGenericDal<Feature>
+    public interface IFeatureDal : IGenericDal<Feature>
     {
     }
 }

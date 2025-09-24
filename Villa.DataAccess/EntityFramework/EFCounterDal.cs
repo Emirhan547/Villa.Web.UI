@@ -10,9 +10,9 @@ using Villa.Entity.Entities;
 
 namespace Villa.DataAccess.EntityFramework
 {
-    public class EFCounterDal : GenericRepository<Counter>, ICounterDal
+    public class EfCounterDal : GenericRepository<Counter>, ICounterDal
     {
-        public EFCounterDal(VillaContext context) : base(context)
+        public EfCounterDal(VillaContext context) : base(context)
         {
         }
     }
