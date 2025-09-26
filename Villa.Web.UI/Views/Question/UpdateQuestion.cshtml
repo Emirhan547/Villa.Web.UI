@@ -1,0 +1,20 @@
+﻿@model UpdateQuestDto
+@{
+    ViewData["Title"] = "Soru-Cevap Güncelleme Sayfası";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <input type="hidden"asp-for="Id"/>
+    <label>Soru</label>
+    <input type="text" asp-for="Question" class="form-control" />
+    <span asp-asp-validation-for="Question" class="taxt-danger"></span>
+    <br />
+    <label>Cevap</label>
+    <input type="text" asp-for="Answer" class="form-control" />
+    <span asp-asp-validation-for="Answer" class="taxt-danger"></span>
+    <br />
+
+    <button class="btn btn-outline-dark">Güncelle</button>
+</form>
+

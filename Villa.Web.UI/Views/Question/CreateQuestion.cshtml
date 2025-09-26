@@ -1,0 +1,20 @@
+﻿@model CreateQuestDto
+@{
+    ViewData["Title"] = "Yeni Soru-Cevap Ekleme Sayfası";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <label>Soru</label>
+    <input type="text" asp-for="Question" class="form-control" />
+    <span asp-asp-validation-for="Question"class="taxt-danger"></span>
+    <br />
+    <label>Cevap</label>
+    <input type="text" asp-for="Answer" class="form-control" />
+    <span asp-asp-validation-for="Answer" class="taxt-danger"></span>
+    <br />
+    
+    <button class="btn btn-outline-dark">Kaydet</button>
+</form>
+
+
