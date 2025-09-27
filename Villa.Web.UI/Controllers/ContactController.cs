@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using System.Threading.Tasks;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
+using Villa.Dto.Dtos.BannerDtos;
 using Villa.Dto.Dtos.ContactDtos;
 using Villa.Entity.Entities;
 
@@ -37,7 +40,18 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateContact(CreateContactDto createContactDto)
         {
+            ModelState.Clear();
             var newContact = _mapper.Map<Contact>(createContactDto);
+            var validator = new ContactValidator();
+            var result = validator.Validate(newContact);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _contactService.TCreateAsync(newContact);
             return RedirectToAction("Index");
 
@@ -51,8 +65,19 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateContact(UpdateContactDto updateContactDto)
         {
-            var updatedContact = _mapper.Map<Contact>(updateContactDto);
-            await _contactService.TUpdateAsync(updatedContact);
+            ModelState.Clear();
+            var contact = _mapper.Map<Contact>(updateContactDto);
+            var validator = new ContactValidator();
+            var result = validator.Validate(contact);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _contactService.TUpdateAsync(contact);
             return RedirectToAction("Index");
         }
     }

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
 using Villa.Dto.Dtos.BannerDtos;
+using Villa.Dto.Dtos.QuestDtos;
 using Villa.Entity.Entities;
 
 namespace Villa.Web.UI.Controllers
@@ -34,11 +36,23 @@ namespace Villa.Web.UI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult>CreateBanner(CreateBannerDto createBannerDto)
+        public async Task<IActionResult> CreateBanner(CreateBannerDto createBannerDto)
         {
-            var newBanner=_mapper.Map<Banner>(createBannerDto);
+            ModelState.Clear();
+            var newBanner = _mapper.Map<Banner>(createBannerDto);
+            var validator = new BannerValidator();
+            var result = validator.Validate(newBanner);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _bannerService.TCreateAsync(newBanner);
             return RedirectToAction("Index");
+
         }
         public async Task<IActionResult>UpdateBanner(ObjectId id)
         {
@@ -49,7 +63,18 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult>UpdateBanner(UpdateBannerDto updateBannerDto)
         {
+            ModelState.Clear();
             var banner=_mapper.Map<Banner>(updateBannerDto);
+            var validator = new BannerValidator();
+            var result= validator.Validate(banner);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _bannerService.TUpdateAsync(banner);
             return RedirectToAction("Index");
         }

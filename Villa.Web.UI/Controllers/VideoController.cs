@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
 using Villa.Dto.Dtos.DealDtos;
+using Villa.Dto.Dtos.QuestDtos;
 using Villa.Dto.Dtos.VideoDtos;
 using Villa.Entity.Entities;
 
@@ -37,7 +40,18 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVideo(CreateVideoDto createVideoDto)
         {
+            ModelState.Clear();
             var newVideo = _mapper.Map<Video>(createVideoDto);
+            var validator = new VideoValidator();
+            var result = validator.Validate(newVideo);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _videoService.TCreateAsync(newVideo);
             return RedirectToAction("Index");
 
@@ -51,8 +65,19 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateVideo(UpdateVideoDto updateVideoDto)
         {
-            var updateVideo = _mapper.Map<Video>(updateVideoDto);
-            await _videoService.TUpdateAsync(updateVideo);
+            ModelState.Clear();
+            var video = _mapper.Map<Video>(updateVideoDto);
+            var validator = new VideoValidator();
+            var result = validator.Validate(video);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _videoService.TUpdateAsync(video);
             return RedirectToAction("Index");
         }
     }

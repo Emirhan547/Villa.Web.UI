@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
 using Villa.Dto.Dtos.FeatureDtos;
 using Villa.Dto.Dtos.MessageDtos;
 using Villa.Entity.Entities;
@@ -37,15 +38,21 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(CreateMessageDto createMessageDto)
         {
-            var value = _mapper.Map<Message>(createMessageDto);
-            await _messageService.TCreateAsync(value);
+            ModelState.Clear();
+            var newMessage = _mapper.Map<Message>(createMessageDto);
+            var validator = new MessageValidator();
+            var result = validator.Validate(newMessage);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _messageService.TCreateAsync(newMessage);
             return RedirectToAction("Index");
-        }
-        public async Task<IActionResult> MessageDetails(ObjectId id)
-        {
-            var value = await _messageService.TGetByIdAsync(id);
-            var messageValue = _mapper.Map<ResultMessageDto>(value);
-            return View(messageValue);
+
         }
     }
 }

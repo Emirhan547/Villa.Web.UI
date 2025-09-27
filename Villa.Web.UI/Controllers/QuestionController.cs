@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.Operations;
@@ -38,7 +39,8 @@ namespace Villa.Web.UI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CreateQuestion(CreateQuestDto createQuestDto)
-        {ModelState.Clear();
+        {
+            ModelState.Clear();
             var newQuestion = _mapper.Map<Quest>(createQuestDto);
             var validator=new QuestionValidator();
             var result=validator.Validate(newQuestion);
@@ -63,8 +65,19 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateQuestion(UpdateQuestDto updateQuestDto)
         {
-            var updateQuestion = _mapper.Map<Quest>(updateQuestDto);
-            await _questService.TUpdateAsync(updateQuestion);
+            ModelState.Clear();
+            var question=_mapper.Map<Quest>(updateQuestDto);
+            var validator = new QuestionValidator();
+            var result= validator.Validate(question);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _questService.TUpdateAsync(question);
             return RedirectToAction("Index");
         }
     }

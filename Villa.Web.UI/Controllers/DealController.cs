@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
 using Villa.Dto.Dtos.CounterDtos;
 using Villa.Dto.Dtos.DealDtos;
 using Villa.Entity.Entities;
@@ -37,7 +39,18 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDeal(CreateDealDto createDealDto)
         {
+            ModelState.Clear();
             var newDeal = _mapper.Map<Deal>(createDealDto);
+            var validator = new DealValidator();
+            var result = validator.Validate(newDeal);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _dealService.TCreateAsync(newDeal);
             return RedirectToAction("Index");
 
@@ -49,10 +62,21 @@ namespace Villa.Web.UI.Controllers
             return View(updateDeal);
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateDeal(UpdateDealDto updatedDealDto)
+        public async Task<IActionResult> UpdateDeal(UpdateDealDto updateDealDto)
         {
-            var updateDeal = _mapper.Map<Deal>(updatedDealDto);
-            await _dealService.TUpdateAsync(updateDeal);
+            ModelState.Clear();
+            var deal = _mapper.Map<Deal>(updateDealDto);
+            var validator = new DealValidator();
+            var result = validator.Validate(deal);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _dealService.TUpdateAsync(deal);
             return RedirectToAction("Index");
         }
     }

@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddServiceExtensions();
 
-// ✅ Connection string ve database name okuma
+
 var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDbConnection");
 var mongoDatabaseName = builder.Configuration.GetValue<string>("MongoDbSettings:DatabaseName");
 
@@ -21,11 +21,11 @@ if (string.IsNullOrEmpty(mongoConnectionString))
 if (string.IsNullOrEmpty(mongoDatabaseName))
     throw new ArgumentNullException("MongoDbSettings:DatabaseName boş!");
 
-// ✅ MongoDB Client ve Database oluştur
+
 var mongoClient = new MongoClient(mongoConnectionString);
 var mongoDatabase = mongoClient.GetDatabase(mongoDatabaseName);
 
-// ✅ DbContext ekleme
+
 builder.Services.AddDbContext<VillaContext>(options =>
 {
     options.UseMongoDB(mongoClient, mongoDatabaseName);

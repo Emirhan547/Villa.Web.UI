@@ -1,7 +1,10 @@
 ﻿ using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Villa.Business.Abstract;
+using Villa.Business.Validators;
+using Villa.Dto.Dtos.BannerDtos;
 using Villa.Dto.Dtos.ContactDtos;
 using Villa.Dto.Dtos.CounterDtos;
 using Villa.Entity.Entities;
@@ -37,7 +40,18 @@ namespace Villa.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCounter(CreateCounterDto createCounterDto)
         {
+            ModelState.Clear();
             var newCounter = _mapper.Map<Counter>(createCounterDto);
+            var validator = new CounterValidator();
+            var result = validator.Validate(newCounter);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
             await _counterService.TCreateAsync(newCounter);
             return RedirectToAction("Index");
 
@@ -49,10 +63,21 @@ namespace Villa.Web.UI.Controllers
             return View(updateCounter);
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateCounter(UpdateCounterDto updatedCountertDto)
+        public async Task<IActionResult> UpdateCounter(UpdateCounterDto updateCounterDto)
         {
-            var updateCounter = _mapper.Map<Counter>(updatedCountertDto);
-            await _counterService.TUpdateAsync(updateCounter);
+            ModelState.Clear();
+            var counter = _mapper.Map<Counter>(updateCounterDto);
+            var validator = new CounterValidator();
+            var result = validator.Validate(counter);
+            if (!result.IsValid)
+            {
+                result.Errors.ForEach(x =>
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                });
+                return View();
+            }
+            await _counterService.TUpdateAsync(counter);
             return RedirectToAction("Index");
         }
     }
