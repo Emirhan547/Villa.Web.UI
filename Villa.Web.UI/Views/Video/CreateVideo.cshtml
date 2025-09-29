@@ -6,6 +6,7 @@
 <form method="post">
     <label>Video Url</label>
     <input type="text" asp-for="VideoUrl" class="form-control" />
+    <span asp-validation-for="VideoUrl" class="taxt-danger"></span>
     <br />
     <button class="btn btn-outline-dark">Kaydet</button>
 </form>

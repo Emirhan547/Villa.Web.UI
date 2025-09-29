@@ -7,27 +7,35 @@
 <form method="post">
     <label>İlan Türü</label>
     <input type="text" asp-for="Type" class="form-control" />
+    <span asp-validation-for="Type" class="taxt-danger"></span>
     <br />
     <label>Resim Url</label>
     <input type="text" asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="taxt-danger"></span>
     <br />
     <label>Başlık</label>
     <input type="text" asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="taxt-danger"></span>
     <br />
     <label>Açıklama</label>
     <input type="text" asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="taxt-danger"></span>
     <br />
     <label>Metrekare</label>
     <input type="text" asp-for="Square" class="form-control" />
+    <span asp-validation-for="Square" class="taxt-danger"></span>
     <br />
     <label>Kaçıncı Kat</label>
     <input type="text" asp-for="Floor" class="form-control" />
+    <span asp-validation-for="Floor" class="taxt-danger"></span>
     <br />
     <label>Oda Sayısı</label>
     <input type="text" asp-for="RoomCount" class="form-control" />
+    <span asp-validation-for="RoomCount" class="taxt-danger"></span>
     <br />
     <label>Ödeme Türü</label>
     <input type="text" asp-for="PaymentType" class="form-control" />
+    <span asp-validation-for="PaymentType" class="taxt-danger"></span>
     <br />
     <label>Park Alanı</label>
     <select asp-for="HasParkingArea" class="form-control">
@@ -35,6 +43,7 @@
         <option value="true">Var</option>
         <option value="false">Yok</option>
     </select>
+    <span asp-validation-for="HasParkingArea" class="taxt-danger"></span>
     <br />
     <button class="btn btn-outline-dark">Kaydet</button>
 </form>

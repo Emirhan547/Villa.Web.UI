@@ -1,0 +1,33 @@
+﻿@model UpdateSubHeaderDto
+@{
+    ViewData["Title"] = "Üst Bilgi Güncelleme Sayfası";
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+}
+<form method="post">
+    <label>Adres</label>
+    <input type="text" asp-for="Address" class="form-control" />
+    <span asp-validation-for="Address" class="taxt-danger"></span>
+    <br />
+    <label>Email</label>
+    <input type="text" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="taxt-danger"></span>
+    <br />
+    <label>Facebook</label>
+    <input type="text" asp-for="Facebook" class="form-control" />
+    <span asp-validation-for="Facebook" class="taxt-danger"></span>
+    <br />
+    <label>Twitter</label>
+    <input type="text" asp-for="Twitter" class="form-control" />
+    <span asp-validation-for="Twitter" class="taxt-danger"></span>
+    <br />
+    <label>Linkedin</label>
+    <input type="text" asp-for="Linkedin" class="form-control" />
+    <span asp-validation-for="Linkedin" class="taxt-danger"></span>
+    <br />
+    <label>Instagram</label>
+    <input type="text" asp-for="Instagram" class="form-control" />
+    <span asp-validation-for="Instagram" class="taxt-danger"></span>
+    <br />
+</form>
+
+

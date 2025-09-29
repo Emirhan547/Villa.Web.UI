@@ -9,12 +9,15 @@
     <input type="hidden" asp-for="Id" />
     <label>Harita Url</label>
     <input type="text" asp-for="MapUrl" class="form-control" />
+    <span asp-validation-for="MapUrl" class="taxt-danger"></span>
     <br />
     <label>Telefon</label>
     <input type="text" asp-for="Phone" class="form-control" />
+    <span asp-validation-for="Phone" class="taxt-danger"></span>
     <br />
     <label>Email</label>
     <input type="text" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="taxt-danger"></span>
     <br />
     <button class="btn btn-outline-dark">Güncelle</button>
 </form>

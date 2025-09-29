@@ -6,12 +6,15 @@
 <form method="post">
     <label>Ad Soyad</label>
     <input type="text" asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="taxt-danger"></span>
     <br />
     <label>Konu</label>
     <input type="text" asp-for="Subject" class="form-control" />
+    <span asp-validation-for="Subject" class="taxt-danger"></span>
     <br />
     <label>Email</label>
     <input type="text" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="taxt-danger"></span>
     <br />
     <label>Mesaj İçeriği</label>
     <textarea asp-for="MessageContent"class="form-control"rows="10"></textarea>

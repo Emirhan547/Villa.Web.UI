@@ -5,12 +5,13 @@
 }
 
 <form method="post">
-    <input type="hidden"asp-for="Id"/>
     <label>Resim Url</label>
     <input type="text" asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="taxt-danger"></span>
     <br />
     <label>Başlık</label>
     <input type="text" asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="taxt-danger"></span>
     <br />
     <label>Kategori</label>
     <select asp-for="Category" class="form-control">
@@ -20,24 +21,31 @@
         <option value="Lüks">Lüks</option>
         <option value="Ahşap">Ahşap</option>
     </select>
+    <span asp-validation-for="Category" class="taxt-danger"></span>
     <br />
     <label>Fiyat</label>
     <input type="text" asp-for="Price" class="form-control" />
+    <span asp-validation-for="Price" class="taxt-danger"></span>
     <br />
     <label>Oda Sayısı</label>
     <input type="text" asp-for="BedroomCount" class="form-control" />
+    <span asp-validation-for="BedroomCount" class="taxt-danger"></span>
     <br />
     <label>Banyo Sayısı</label>
     <input type="text" asp-for="BathroomCount" class="form-control" />
+    <span asp-validation-for="BathroomCount" class="taxt-danger"></span>
     <br />
     <label>Metrekare Sayısı</label>
     <input type="text" asp-for="Area" class="form-control" />
+    <span asp-validation-for="Area" class="taxt-danger"></span>
     <br />
     <label>Kaçıncı Kat</label>
     <input type="text" asp-for="Floor" class="form-control" />
+    <span asp-validation-for="Floor" class="taxt-danger"></span>
     <br />
     <label>Park Alanı Sayısı</label>
     <input type="text" asp-for="ParkingCount" class="form-control" />
+    <span asp-validation-for="ParkingCount" class="taxt-danger"></span>
     <br />
 
     <button class="btn btn-outline-dark">Güncelle</button>
