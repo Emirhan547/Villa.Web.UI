@@ -31,28 +31,12 @@ namespace Villa.Web.UI.Controllers
             await _messageService.TDeleteAsync(id);
             return RedirectToAction("Index");
         }
-        public IActionResult CreateMessage()
+       
+        public async Task<IActionResult> MessageDetails(ObjectId id)
         {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreateMessage(CreateMessageDto createMessageDto)
-        {
-            ModelState.Clear();
-            var newMessage = _mapper.Map<Message>(createMessageDto);
-            var validator = new MessageValidator();
-            var result = validator.Validate(newMessage);
-            if (!result.IsValid)
-            {
-                result.Errors.ForEach(x =>
-                {
-                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                });
-                return View();
-            }
-            await _messageService.TCreateAsync(newMessage);
-            return RedirectToAction("Index");
-
+            var value = await _messageService.TGetByIdAsync(id);
+            var valueDto = _mapper.Map<ResultMessageDto>(value);
+            return View(valueDto);
         }
     }
 }

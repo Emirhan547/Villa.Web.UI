@@ -1,78 +1,245 @@
-﻿@model List<ResultDealDto> 
+﻿@model List<ResultDealDto>
 @{
     int titleCount = 0;
-    var titleActive = "";
-
     int contentCount = 0;
-    var contentActive = "";
-
-    var selected = ""; 
 }
-<div class="section best-deal">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="section-heading">
-                    <h6>| En iyi Tekliflerimiz</h6>
-                    <h2>İstediğiniz Türde Villarımızı İnceleyin.</h2>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="tabs-content">
-                    <div class="row">
-                        <div class="nav-wrapper ">
-                            <ul class="nav nav-tabs" role="tablist">
-                                @foreach (var item in Model)
-                                {
-                                    titleCount++;
-                                    if (titleCount == 1) { titleActive = "active";selected = "true"; } else { titleActive = ""; selected = "false"; }
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link @titleActive" id="@item.Type" data-bs-toggle="tab" data-bs-target="#@item.Type" type="button" role="tab" aria-controls="@item.Type" aria-selected="@selected">@item.Type</button>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
 
-                        
-                            <div class="tab-content" id="myTabContent">
-                            @foreach (var item in Model)
-                            {
-                                contentCount++;
-                                if (contentCount == 1) { contentActive = "show active"; } else { contentActive = ""; }
-                                <div class="tab-pane fade show @contentActive" id="@item.Type" role="tabpanel" aria-labelledby="appartment-tab">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="info-table">
-                                                <ul>
-                                                    <li>Metrekare Bilgisi<span>@item.Square m2</span></li>
-                                                    <li>Bulunduğu Kat <span>@item.Floor</span></li>
-                                                    <li>Oda Sayısı <span>@item.RoomCount</span></li>
-                                                    <li>Park Alanı <span>@item.HasParkingArea ? "Var" :</span></li>
-                                                    <li>Ödeme Türü <span>@item.PaymentType</span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <img src="@item.ImageUrl" alt="">
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <h4>@item.Title</h4>
-                                            <p>
-                                                @item.Description
-                                            </p>
-                                            <div class="icon-button">
-                                                <a href="#"><i class="fa fa-calendar"></i>Ziyaret Planlayın</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                }
-                            </div>
-                       
-                       
-                    </div>
+<div class="section best-deal py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <div class="section-heading">
+                    <h6 class="text-primary mb-3">| En İyi Tekliflerimiz</h6>
+                    <h2 class="fw-bold mb-4">İstediğiniz Türde Villalarımızı İnceleyin</h2>
                 </div>
             </div>
         </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-5 justify-content-start" id="dealTab" role="tablist">
+            @foreach (var item in Model)
+            {
+                titleCount++;
+                var active = titleCount == 1 ? "active" : "";
+                var selected = titleCount == 1 ? "true" : "false";
+                <li class="nav-item me-2 mb-2" role="presentation">
+                    <button class="nav-link @active px-4 py-2 rounded-pill"
+                            id="@item.Type-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#@item.Type.Replace(" ", "")"
+                            type="button"
+                            role="tab"
+                            aria-controls="@item.Type.Replace(" ", "")"
+                            aria-selected="@selected">
+                        @item.Type
+                    </button>
+                </li>
+            }
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="dealTabContent">
+            @foreach (var item in Model)
+            {
+                contentCount++;
+                var contentActive = contentCount == 1 ? "show active" : "";
+                var tabId = item.Type.Replace(" ", "");
+                <div class="tab-pane fade @contentActive" id="@tabId" role="tabpanel" aria-labelledby="@item.Type-tab">
+                    <div class="row g-2 align-items-stretch">
+                        <!-- g-2 ile küçük boşluk -->
+                        <!-- Bilgi Tablosu -->
+                        <div class="col-lg-4">
+                            <div class="info-table p-4 border-0 rounded-start-3 bg-white shadow-sm h-100">
+                                <h5 class="fw-bold text-primary mb-4">Teknik Özellikler</h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                        <span class="fw-medium text-muted">Metrekare:</span>
+                                        <span class="fw-bold text-dark">@item.Square m²</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                        <span class="fw-medium text-muted">Bulunduğu Kat:</span>
+                                        <span class="fw-bold text-dark">@item.Floor</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                        <span class="fw-medium text-muted">Oda Sayısı:</span>
+                                        <span class="fw-bold text-dark">@item.RoomCount</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                                        <span class="fw-medium text-muted">Park Alanı:</span>
+                                        <span class="badge @(item.HasParkingArea ? "bg-success" : "bg-secondary")">
+                                            @(item.HasParkingArea ? "Var" : "Yok")
+                                        </span>
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center py-3">
+                                        <span class="fw-medium text-muted">Ödeme Türü:</span>
+                                        <span class="fw-bold text-dark text-end">@item.PaymentType</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Resim -->
+                        <div class="col-lg-5">
+                            <div class="property-image h-100 d-flex align-items-center justify-content-center bg-light rounded-0 position-relative overflow-hidden">
+                                <img src="@item.ImageUrl" alt="@item.Title"
+                                     class="img-fluid h-100 w-100"
+                                     style="object-fit: cover; object-position: center;">
+                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                    <div class="image-placeholder" style="display: none;">
+                                        <i class="fas fa-home fa-3x text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Açıklama ve Buton -->
+                        <div class="col-lg-3">
+                            <div class="property-info p-4 border-0 rounded-end-3 bg-white shadow-sm h-100 d-flex flex-column">
+                                <div class="flex-grow-1">
+                                    <h4 class="fw-bold text-dark mb-3">@item.Title</h4>
+                                    <p class="text-muted mb-4">@item.Description</p>
+                                </div>
+                                <div class="mt-auto">
+                                    <a href="#" class="btn btn-primary w-100 py-3 fw-bold">
+                                        <i class="fas fa-calendar-check me-2"></i>Ziyaret Planlayın
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+<style>
+    .nav-pills .nav-link {
+        background: #f8f9fa;
+        color: #495057;
+        border: 2px solid transparent;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            border-color: #007bff;
+            transform: translateY(-1px);
+        }
+
+    .info-table, .property-info {
+        transition: all 0.3s ease;
+    }
+
+        .info-table:hover, .property-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        }
+
+    .property-image {
+        transition: all 0.3s ease;
+        min-height: 350px;
+    }
+
+        .property-image:hover {
+            transform: scale(1.01);
+        }
+
+        .property-image img {
+            transition: transform 0.3s ease;
+        }
+
+        .property-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Görsel yüklenmezse placeholder göster */
+        .property-image img:before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
+        }
+
+    /* Responsive düzenlemeler */
+    @@media (max-width: 992px) {
+        .row.g-2 > [class*="col-"] {
+            margin-bottom: 1rem;
+        }
+
+        .info-table {
+            border-radius: 0.5rem !important;
+        }
+
+        .property-image {
+            border-radius: 0.5rem !important;
+            min-height: 300px;
+        }
+
+        .property-info {
+            border-radius: 0.5rem !important;
+        }
+
+        .property-image img {
+            border-radius: 0.5rem;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .nav-pills .nav-link {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .info-table, .property-info {
+            padding: 1.5rem !important;
+        }
+
+        .property-image {
+            min-height: 250px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .property-image {
+            min-height: 200px;
+        }
+    }
+</style>
+
+<script>
+    // Görsel yüklenmezse placeholder göster
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.property-image img');
+        images.forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                const placeholder = this.closest('.property-image').querySelector('.image-placeholder');
+                if (placeholder) {
+                    placeholder.style.display = 'flex';
+                }
+            });
+
+            // Görsel yüklendiyse placeholder'ı gizle
+            if (img.complete && img.naturalHeight !== 0) {
+                const placeholder = img.closest('.property-image').querySelector('.image-placeholder');
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+            }
+        });
+    });
+</script>

@@ -13,18 +13,14 @@ namespace Villa.Business.Validators
         public ProductValidator()
         {
             RuleFor(x => x.ImageUrl)
-                .NotEmpty().WithMessage("Resim linki boş olamaz.")
-                .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                .WithMessage("Geçerli bir resim linki giriniz.");
+                .NotEmpty().WithMessage("Resim linki boş olamaz.");
+                
 
             RuleFor(x => x.Category)
-                .NotEmpty().WithMessage("Kategori boş olamaz.")
-                .MinimumLength(3).WithMessage("Kategori en az 3 karakter olmalıdır.")
-                .MaximumLength(50).WithMessage("Kategori en fazla 50 karakter olabilir.");
+                .NotEmpty().WithMessage("Kategori boş olamaz.");
 
             RuleFor(x => x.Price)
-                .NotEmpty().WithMessage("Fiyat boş olamaz.")
-                .Matches(@"^\d+(\.\d{1,2})?$").WithMessage("Fiyat yalnızca rakamlardan oluşmalı ve en fazla 2 ondalık basamak içerebilir.");
+                .NotEmpty().WithMessage("Fiyat boş olamaz.");
 
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Başlık boş olamaz.")

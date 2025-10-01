@@ -1,22 +1,41 @@
 ﻿@model List<ResultCounterDto>
-<div class="fun-facts">
+
+<div class="fun-facts py-5" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="wrapper">
-                    <div class="row">
-                        @foreach(var item in Model)
-                        {
-                        <div class="col-lg-4">
-                            <div class="counter">
-                                <h2 class="timer count-title count-number" data-to="@item.Count" data-speed="1000"></h2>
-                                <p class="count-text ">@item.Title</p>
-                            </div>
-                        </div>
-                        }
+        <div class="row text-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="counter-box text-white p-4">
+                        <h2 class="timer count-title count-number display-4 fw-bold mb-2" data-to="@item.Count" data-speed="1000">0</h2>
+                        <p class="count-text mb-0 fs-5 fw-medium">@item.Title</p>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>
+
+<style>
+    .counter-box {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+        .counter-box:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+    .count-number {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .count-text {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+</style>

@@ -19,5 +19,7 @@ namespace Villa.Dto.Dtos.ProductDtos
         public int Area { get; set; }
         public int Floor { get; set; }
         public int ParkingCount { get; set; }
+        public string Description { get; set; }
+
     }
 }

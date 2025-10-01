@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Villa.DataAccess\Villa.DataAccess.csproj" />
+    <ProjectReference Include="..\Villa.Dto\Villa.Dto.csproj" />
     <ProjectReference Include="..\Villa.Entity\Villa.Entity.csproj" />
   </ItemGroup>
 

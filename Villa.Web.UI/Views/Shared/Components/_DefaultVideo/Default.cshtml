@@ -1,17 +1,25 @@
 ﻿@model List<ResultVideoDto>
-<div class="video section">
+
+<div class="video-section py-5 bg-white">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 offset-lg-4">
-                <div class="section-heading text-center">
-                    <h6>Tanıtım Videomuzu İzleyin</h6>
-                    </div>
-            </div>
-                    @foreach (var item in Model)
-                    {
-                            <iframe width="750" height="450" src="@item.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    }
+        <div class="row mb-4">
+            <div class="col-lg-6 offset-lg-3 text-center">
+                <div class="section-heading">
+                    <h6>| Tanıtım Videomuz</h6>
+                    <h2>Villalarımızı Daha Yakından Görün</h2>
                 </div>
             </div>
         </div>
 
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-8">
+                    <div class="ratio ratio-16x9 rounded shadow">
+                        <iframe src="@item.VideoUrl" title="Villa Tanıtım Videosu" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

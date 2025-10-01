@@ -18,5 +18,6 @@ namespace Villa.Entity.Entities
         public bool HasParkingArea { get; set; }
         public string PaymentType { get; set; }
 
+
     }
 }

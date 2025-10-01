@@ -13,9 +13,8 @@ namespace Villa.Business.Validators
         public FeatureValidator()
         {
             RuleFor(x => x.ImageUrl)
-                .NotEmpty().WithMessage("Resim linki boş olamaz.")
-                .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                .WithMessage("Geçerli bir resim linki giriniz.");
+                .NotEmpty().WithMessage("Resim linki boş olamaz.");
+                
 
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Başlık boş olamaz.")

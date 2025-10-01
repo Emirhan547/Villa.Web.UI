@@ -13,9 +13,8 @@ namespace Villa.Business.Validators
         public VideoValidator()
         {
             RuleFor(x => x.VideoUrl)
-                .NotEmpty().WithMessage("Video linki boş olamaz.")
-                .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                .WithMessage("Geçerli bir video linki giriniz.");
+                .NotEmpty().WithMessage("Video linki boş olamaz.");
+                
         }
     }
 }

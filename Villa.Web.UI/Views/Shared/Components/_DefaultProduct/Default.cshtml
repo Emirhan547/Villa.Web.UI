@@ -1,36 +1,79 @@
 ﻿@model List<ResultProductDto>
-<div class="properties section" id="properties">
+
+<div class="properties section py-5 bg-white" id="properties">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 offset-lg-4">
-                <div class="section-heading text-center">
+        <div class="row mb-4">
+            <div class="col-lg-4 offset-lg-4 text-center">
+                <div class="section-heading">
                     <h6>| Mülklerimiz</h6>
                     <h2>Beğeneceğiniz en iyi mülkleri sunuyoruz</h2>
                 </div>
             </div>
         </div>
-        <div class="row">
-            @foreach(var item in Model)
+
+        <div class="row g-4">
+            @foreach (var item in Model)
             {
-            <div class="col-lg-4 col-md-6">
-                <div class="item">
-                    <a href="property-details.html"><img src="@item.ImageUrl" alt=""></a>
-                    <span class="category">Luxury Villa</span>
-                        <h6>@item.Price ₺ </h6>
-                    <h4><a href="property-details.html">@item.Title</a></h4>
-                    <ul>
-                        <li>Oda Sayısı: <span>@item.BedroomCount</span></li>
-                        <li>Banyo Sayısı: <span>@item.BathroomCount</span></li>
-                        <li>Metrekare: <span>@item.Area m2</span></li>
-                        <li>Bulunduğu Kat: <span>@item.Floor</span></li>
-                        <li>Park Alanı Sayısı: <span>@item.ParkingCount adet</span></li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="#">Ziyaret Planla</a>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 220px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">@item.Title</h5>
+                            <h6 class="text-primary mb-3">@item.Price ₺</h6>
+
+                            <div class="property-details mb-3">
+                                <div class="row text-center g-2">
+                                    <div class="col-6">
+                                        <div class="border rounded p-2">
+                                            <small class="text-muted d-block">Oda</small>
+                                            <strong>@item.BedroomCount</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="border rounded p-2">
+                                            <small class="text-muted d-block">Banyo</small>
+                                            <strong>@item.BathroomCount</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="border rounded p-2">
+                                            <small class="text-muted d-block">m²</small>
+                                            <strong>@item.Area</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="border rounded p-2">
+                                            <small class="text-muted d-block">Park</small>
+                                            <strong>@item.ParkingCount</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="#" class="btn btn-primary w-100">Ziyaret Planla</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .property-details .border {
+        transition: all 0.3s ease;
+    }
+
+        .property-details .border:hover {
+            border-color: #007bff !important;
+            background: #f8f9fa;
+        }
+</style>

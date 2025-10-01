@@ -1,57 +1,81 @@
 ﻿@model List<ResultFeatureDto>
-<div class="featured section">
+
+<div class="featured section py-5 bg-light">
     <div class="container">
-
-        <div class="row">
-            @foreach (var item in Model)
-            {
-           
-            <div class="col-lg-4">
-                <div class="left-image">
-                    <img src="@item.ImageUrl" alt="">
-                    <a href="property-details.html"><img src="@item.ImageUrl"></a>
-                </div>
-                    
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h6 class="text-primary mb-2">| Öne Çıkan Özellikler</h6>
+                <h2 class="fw-bold mb-4">Kalitemizi Keşfedin</h2>
             </div>
-            }
-                <div class="col-lg-5">
-                    @foreach (var item in Model)
-                    {
+        </div>
 
-                        <div class="section-heading">
-                            <h6>| @item.Title</h6>
-                    <h2>@item.SubTitle</h2>
-                </div>
+        <div class="row g-4">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model.Take(3))
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-card h-100 bg-white rounded-3 shadow-sm border-0 overflow-hidden">
+                            <div class="feature-image">
+                                <img src="@item.ImageUrl" alt="@item.Title" class="img-fluid w-100" style="height: 220px; object-fit: cover;">
+                            </div>
+
+                            <div class="p-4">
+                                <div class="mb-3">
+                                    <h6 class="text-primary mb-1">@item.Title</h6>
+                                    <h5 class="fw-bold text-dark">@item.SubTitle</h5>
+                                </div>
+
+                                <div class="info-table">
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                            <span class="text-muted">Toplam Alan:</span>
+                                            <strong class="text-dark">@item.Square m²</strong>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                            <span class="text-muted">Kontrat Türü:</span>
+                                            <strong class="text-dark">@item.Contract</strong>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                            <span class="text-muted">Ödeme Türü:</span>
+                                            <strong class="text-dark">@item.Payment</strong>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-2">
+                                            <span class="text-muted">Güvenlik:</span>
+                                            <span class="badge bg-success">@item.Safety</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
-
-            @await Component.InvokeAsync("_DefaultQuestion")
-            </div>
-            @foreach (var item in Model)
-            {
-            <div class="col-lg-3">
-                <div class="info-table">
-                    <ul>
-                        <li>
-                            <img src="assets/images/info-icon-01.png" alt="" style="max-width: 52px;">
-                            <h4>@item.Square m2<br><span>Toplam Alan</span></h4>
-                        </li>
-                        <li>
-                            <img src="assets/images/info-icon-02.png" alt="" style="max-width: 52px;">
-                            <h4>Kontrat Türü<br><span>@item.Contract</span></h4>
-                        </li>
-                        <li>
-                            <img src="assets/images/info-icon-03.png" alt="" style="max-width: 52px;">
-                            <h4>Ödeme Türü<br><span>@item.Payment </span></h4>
-                        </li>
-                        <li>
-                            <img src="assets/images/info-icon-04.png" alt="" style="max-width: 52px;">
-                            <h4>Güvenlik Durumu<br><span>@item.Safety</span></h4>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             }
         </div>
-       
+
+        <div class="row mt-5 pt-4">
+            <div class="col-12">
+                @await Component.InvokeAsync("_DefaultQuestion")
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        }
+
+    .feature-image img {
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .feature-image img {
+        transform: scale(1.05);
+    }
+</style>
